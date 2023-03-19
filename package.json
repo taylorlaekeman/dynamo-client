@@ -4,9 +4,7 @@
   "version": "0.0.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "/dist"
-  ],
+  "files": ["/dist"],
   "scripts": {
     "build": "tsc",
     "lint": "eslint src && prettier --check src",
@@ -23,6 +21,10 @@
     "url": "https://github.com/taylorlaekeman/dynamo-client/issues"
   },
   "homepage": "https://github.com/taylorlaekeman/dynamo-client#readme",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.294.0",
+    "@aws-sdk/lib-dynamodb": "^3.294.0"
+  },
   "devDependencies": {
     "@jest/globals": "^29.5.0",
     "@types/jest": "^29.5.0",
