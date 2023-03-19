@@ -1,0 +1,27 @@
+{
+  "name": "@taylorlaekeman/dynamo-client",
+  "description": "",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["/dist"],
+  "scripts": {
+    "build": "tsc",
+    "lint": "prettier --check src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taylorlaekeman/dynamo-client.git"
+  },
+  "author": "Taylor Laekeman",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/taylorlaekeman/dynamo-client/issues"
+  },
+  "homepage": "https://github.com/taylorlaekeman/dynamo-client#readme",
+  "devDependencies": {
+    "prettier": "2.8.4",
+    "typescript": "^5.0.2"
+  }
+}
