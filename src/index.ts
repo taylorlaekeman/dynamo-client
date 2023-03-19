@@ -1,4 +1,4 @@
-import test from './test';
+import test from './import';
 
 const run = () => {
   test('hello');
