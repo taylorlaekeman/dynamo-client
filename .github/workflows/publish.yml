@@ -1,5 +1,7 @@
 name: Publish Dynamo Client
 
+on: [push]
+
 jobs:
   publish:
     runs-on: ubuntu-latest
