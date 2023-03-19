@@ -1,7 +1,1 @@
-import test from './import';
-
-const run = () => {
-  test('hello');
-};
-
-export default run;
+export { default as TestEngine } from './testEngine';
