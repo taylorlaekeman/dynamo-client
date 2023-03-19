@@ -9,7 +9,7 @@ import MissingKeyError from './errors/missingKeyError';
 import MissingTableError from './errors/missingTableError';
 import ExistingTableError from './errors/existingTableError';
 
-class TestEngine implements Engine {
+class MemoryEngine implements Engine {
   readonly items: Items;
 
   readonly tables: Tables;
@@ -69,4 +69,4 @@ const getKey = ({
   return `${item[hashKey].toString()}+${item[sortKey].toString()}`;
 };
 
-export default TestEngine;
+export default MemoryEngine;
