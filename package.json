@@ -4,7 +4,7 @@
   "version": "0.0.2",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
-  "files": ["/dist"],
+  "files": ["/dist/src"],
   "scripts": {
     "build": "tsc",
     "check": "npm run build && npm run lint && npm run test",
