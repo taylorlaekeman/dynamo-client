@@ -12,6 +12,6 @@ jobs:
           node-version: '16.x'
       - run: npm install
       - run: npm run lint
-      - run: echo "STORAGE_ID=${{ secrets.STORAGE_ID }}\nSTORAGE_REGION=${{ secrets.STORAGE_REGION }}\nSTORAGE_SECRET=${{ secrets.STORAGE_SECRET }}" >> .env
+      - run: echo "STORAGE_ID=${{ secrets.STORAGE_ID }}\nSTORAGE_REGION=${{ secrets.STORAGE_REGION }}\nSTORAGE_SECRET=${{ secrets.STORAGE_SECRET }}" >> .env && cat .env
       - run: npm run test
       - run: npm run build
