@@ -12,6 +12,9 @@ jobs:
           node-version: '16.x'
       - run: npm install
       - run: npm run lint
-      - run: echo STORAGE_ID=${{ secrets.STORAGE_ID }} >> .env && echo STORAGE_REGION=${{ secrets.STORAGE_REGION }} >> .env && echo STORAGE_SECRET=${{ secrets.STORAGE_SECRET }} >> .env
       - run: npm run test
+        env:
+          STORAGE_ID: ${{ secrets.STORAGE_ID }}
+          STORAGE_REGION: ${{ secrets.STORAGE_REGION }}
+          STORAGE_SECRET: ${{ secrets.STORAGE_SECRET }}
       - run: npm run build
