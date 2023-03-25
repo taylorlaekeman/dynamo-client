@@ -120,8 +120,8 @@ const formatItem = ({
   const result = {
     ...item,
   } as Item;
-  if (!('createdDate' in result)) result['createdDate'] = getNow();
-  if (!('id' in result)) result['id'] = getId();
+  if (!('createdDate' in result)) result.createdDate = getNow();
+  if (!('id' in result)) result.id = getId();
   const { key: hashKey, value: hashKeyValue } = formatKey({
     item: result,
     keys: hashKeys,
