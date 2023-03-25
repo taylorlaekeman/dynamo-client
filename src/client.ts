@@ -8,7 +8,7 @@ import MissingTableError from './errors/missingTableError';
 class StorageClient {
   readonly engine: StorageEngine;
 
-  readonly environment: string;
+  readonly environment?: string;
 
   readonly getId: () => string;
 
@@ -21,7 +21,7 @@ class StorageClient {
     getNow = () => DateTime.now().toUTC().toISO(),
   }: {
     engine: StorageEngine;
-    environment: string;
+    environment?: string;
     getId?: () => string;
     getNow?: () => string;
   }) {
@@ -35,7 +35,10 @@ class StorageClient {
     item: itemWithoutMetadata,
     table: { hashKeys, name, sortKeys },
   }: AddItemInput): Promise<Item> => {
-    const tableName = `${this.environment}-${name}`;
+    const tableName = getTableName({
+      environment: this.environment,
+      tableName: name,
+    });
     const hashKey = createCompositeValue({ values: hashKeys }) as string;
     const sortKey = createCompositeValue({ values: sortKeys }) as string;
     const item = formatItem({
@@ -67,7 +70,10 @@ class StorageClient {
     hashKeyValue,
     tableName: name,
   }: GetItemsInput): Promise<Item[]> => {
-    const tableName = `${this.environment}-${name}`;
+    const tableName = getTableName({
+      environment: this.environment,
+      tableName: name,
+    });
     return this.engine.getItems({ hashKeyName, hashKeyValue, tableName });
   };
 }
@@ -86,6 +92,17 @@ export interface GetItemsInput {
   hashKeyValue: string;
   tableName: string;
 }
+
+const getTableName = ({
+  environment,
+  tableName,
+}: {
+  environment?: string;
+  tableName: string;
+}): string => {
+  if (environment) return `${environment}-${tableName}`;
+  return tableName;
+};
 
 const formatItem = ({
   getId,
