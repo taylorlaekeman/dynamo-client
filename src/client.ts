@@ -117,19 +117,19 @@ const formatItem = ({
   item: Item;
   sortKeys?: string[];
 }): Item => {
-  const { key: hashKey, value: hashKeyValue } = formatKey({
-    item,
-    keys: hashKeys,
-  });
   const result = {
     ...item,
-    createdDate: getNow(),
-    [hashKey]: hashKeyValue,
-    id: getId(),
-  };
+  } as Item;
+  if (!('createdDate' in result)) result['createdDate'] = getNow();
+  if (!('id' in result)) result['id'] = getId();
+  const { key: hashKey, value: hashKeyValue } = formatKey({
+    item: result,
+    keys: hashKeys,
+  });
+  result[hashKey] = hashKeyValue;
   if (sortKeys) {
     const { key: sortKey, value: sortKeyValue } = formatKey({
-      item,
+      item: result,
       keys: sortKeys,
     });
     result[sortKey] = sortKeyValue;
