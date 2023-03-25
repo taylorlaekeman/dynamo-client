@@ -199,7 +199,7 @@ test('throws error if item is missing component of composite hash key', async ()
   ).rejects.toThrow(MissingKeyError);
 });
 
-test('throws error if item is missing component of composite hash key', async () => {
+test('throws error if item is missing component of composite sort key', async () => {
   const engine = new MemoryEngine();
   const client = new StorageClient({
     engine,
@@ -220,4 +220,100 @@ test('throws error if item is missing component of composite hash key', async ()
       },
     })
   ).rejects.toThrow(MissingKeyError);
+});
+
+test('allows generated id and created date in composite hash key', async () => {
+  const engine = new MemoryEngine();
+  const client = new StorageClient({
+    engine,
+    environment: 'test-addItem',
+    getId: () => 'test-id',
+    getNow: () => '2020-01-01T00:00:00',
+  });
+  const item = await client.addItem({
+    item: {
+      testHashKey: 'test-hash-key',
+      testSortKey: 'test-sort-key',
+    },
+    table: {
+      hashKeys: ['testHashKey', 'id', 'createdDate'],
+      sortKeys: ['testSortKey'],
+      name: 'test-table',
+    },
+  });
+  const expectedItem = {
+    createdDate: '2020-01-01T00:00:00',
+    id: 'test-id',
+    testHashKey: 'test-hash-key',
+    testSortKey: 'test-sort-key',
+  };
+  expect(item).toMatchObject(expectedItem);
+  expect(
+    engine.items['test-addItem-test-table'][
+      'test-hash-key|test-id|2020-01-01T00:00:00+test-sort-key'
+    ]
+  ).toMatchObject(expectedItem);
+});
+
+test('allows generated id and created date in composite sort key', async () => {
+  const engine = new MemoryEngine();
+  const client = new StorageClient({
+    engine,
+    environment: 'test-addItem',
+    getId: () => 'test-id',
+    getNow: () => '2020-01-01T00:00:00',
+  });
+  const item = await client.addItem({
+    item: {
+      testHashKey: 'test-hash-key',
+      testSortKey: 'test-sort-key',
+    },
+    table: {
+      hashKeys: ['testHashKey'],
+      sortKeys: ['testSortKey', 'id', 'createdDate'],
+      name: 'test-table',
+    },
+  });
+  const expectedItem = {
+    createdDate: '2020-01-01T00:00:00',
+    id: 'test-id',
+    testHashKey: 'test-hash-key',
+    testSortKey: 'test-sort-key',
+  };
+  expect(item).toMatchObject(expectedItem);
+  expect(
+    engine.items['test-addItem-test-table'][
+      'test-hash-key+test-sort-key|test-id|2020-01-01T00:00:00'
+    ]
+  ).toMatchObject(expectedItem);
+});
+
+test('does not overwrite id or created date', async () => {
+  const engine = new MemoryEngine();
+  const client = new StorageClient({
+    engine,
+    environment: 'test-addItem',
+    getId: () => 'test-id',
+    getNow: () => '2020-01-01T00:00:00',
+  });
+  const item = await client.addItem({
+    item: {
+      createdDate: '2020-01-02T00:00:00',
+      id: 'test-other-id',
+      testHashKey: 'test-hash-key',
+    },
+    table: {
+      hashKeys: ['testHashKey'],
+      name: 'test-table',
+    },
+  });
+  const expectedItem = {
+    createdDate: '2020-01-02T00:00:00',
+    id: 'test-other-id',
+    testHashKey: 'test-hash-key',
+  };
+  expect(item).toMatchObject(expectedItem);
+  expect(
+    engine.items['test-addItem-test-table']['test-hash-key']
+  ).toMatchObject(expectedItem);
 });
