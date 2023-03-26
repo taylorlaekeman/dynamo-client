@@ -41,7 +41,9 @@ class DynamoEngine implements Engine {
       },
       region,
     });
-    this.documentClient = DynamoDBDocumentClient.from(this.client);
+    this.documentClient = DynamoDBDocumentClient.from(this.client, {
+      marshallOptions: { removeUndefinedValues: true },
+    });
   }
 
   addItem = async ({ item, tableName }: AddItemInput) => {
