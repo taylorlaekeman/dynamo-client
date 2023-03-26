@@ -143,22 +143,22 @@ const formatKey = ({
 }: {
   item: Item;
   keys: string[];
-}): { key: string; value: boolean | number | string } => {
+}): { key: string; value: unknown } => {
   const values = keys.map((key) => {
     if (!(key in item)) throw new MissingKeyError();
     return item[key];
   });
   return {
     key: createCompositeValue({ values: keys }) as string,
-    value: createCompositeValue({ values }) as boolean | number | string,
+    value: createCompositeValue({ values }),
   };
 };
 
 const createCompositeValue = ({
   values,
 }: {
-  values?: (boolean | number | string)[];
-}): boolean | number | string | undefined => {
+  values?: unknown[];
+}): unknown | undefined => {
   if (!values) return undefined;
   if (values.length === 1) return values[0];
   return values.join('|');

@@ -64,9 +64,11 @@ const getKey = ({
   sortKey?: string;
 }): string => {
   if (!(hashKey in item)) throw new MissingKeyError();
-  if (!sortKey) return item[hashKey].toString();
+  const retrievedHashKey = (item[hashKey] || '').toString();
+  if (!sortKey) return retrievedHashKey;
   if (!(sortKey in item)) throw new MissingKeyError();
-  return `${item[hashKey].toString()}+${item[sortKey].toString()}`;
+  const retrievedSortKey = (item[sortKey] || '').toString();
+  return `${retrievedHashKey}+${retrievedSortKey}`;
 };
 
 export default MemoryEngine;

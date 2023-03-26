@@ -8,6 +8,9 @@ test('gets items', async () => {
         'test-hash-key+test-sort-key-1': {
           testHashKey: 'test-hash-key',
           testSortKey: 'test-sort-key-1',
+          nestedObject: {
+            testValue: 'test',
+          },
           otherProperty: 'test-value-1',
         },
         'test-hash-key+test-sort-key-2': {
@@ -30,6 +33,9 @@ test('gets items', async () => {
     {
       testHashKey: 'test-hash-key',
       testSortKey: 'test-sort-key-1',
+      nestedObject: {
+        testValue: 'test',
+      },
       otherProperty: 'test-value-1',
     },
     {
