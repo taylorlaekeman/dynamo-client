@@ -42,7 +42,10 @@ test('adds item', async () => {
     testSortKey: 'test-sort-key',
   };
   const returnedItem = await engine.addItem({
-    item,
+    item: {
+      ...item,
+      undefinedProperty: undefined,
+    },
     tableName,
   });
   const response = await getItem({
