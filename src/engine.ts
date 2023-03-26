@@ -11,7 +11,7 @@ export interface AddItemInput {
   tableName: string;
 }
 
-export type Item = Record<string, boolean | number | string>;
+export type Item = Record<string, unknown>;
 
 export interface CreateTableInput {
   hashKey: string;

@@ -86,7 +86,7 @@ class FileStorageEngine implements Engine {
     const matchingItems = Object.entries(items)
       .filter(([key]) => key.split('+')[0] === hashKeyValue)
       .map((entry) => entry[1]);
-    return matchingItems as Item[];
+    return matchingItems;
   };
 
   private hasDbRoot = async () => {
@@ -109,7 +109,7 @@ const getItems = async ({
   tableName: string;
 }): Promise<Items> => readJson({ fileName: `${dbRoot}/${tableName}.json` });
 
-type Items = Record<string, Record<string, boolean | number | string>>;
+type Items = Record<string, Item>;
 
 const getKey = ({
   hashKey,
@@ -121,9 +121,11 @@ const getKey = ({
   sortKey?: string;
 }): string => {
   if (!(hashKey in item)) throw new MissingKeyError();
-  if (!sortKey) return item[hashKey].toString();
+  const retrievedHashKey = (item[hashKey] || '').toString();
+  if (!sortKey) return retrievedHashKey;
   if (!(sortKey in item)) throw new MissingKeyError();
-  return `${item[hashKey].toString()}+${item[sortKey].toString()}`;
+  const retrievedSortKey = (item[sortKey] || '').toString();
+  return `${retrievedHashKey}+${retrievedSortKey}`;
 };
 
 const getTables = async ({ dbRoot }: { dbRoot: string }): Promise<Tables> =>
